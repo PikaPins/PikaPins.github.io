@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皮卡丘管理后台</title>
+    <link rel="stylesheet" href="css/admin-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="images/pikachu1.png" alt="管理员皮卡丘" id="adminPikachu">
+                <h1>皮卡丘资源管理后台</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> 返回首页</a>
+            </div>
+        </header>
+        
+        <main>
+            <section class="auth-section" id="authSection">
+                <h2>GitHub 授权</h2>
+                <p>请输入您的 GitHub 个人访问令牌以获取更新权限：</p>
+                <div class="input-group">
+                    <input type="password" id="tokenInput" placeholder="输入 GitHub 个人访问令牌">
+                    <button id="authButton">授权</button>
+                </div>
+                <div class="help-text">
+                    <p>如何获取个人访问令牌：</p>
+                    <ol>
+                        <li>访问 <a href="https://github.com/settings/tokens" target="_blank">GitHub 令牌设置</a></li>
+                        <li>点击 "Generate new token" (classic)</li>
+                        <li>添加描述，如 "Resource Recommender Admin"</li>
+                        <li>选择 "repo" 权限范围</li>
+                        <li>生成并复制令牌</li>
+                    </ol>
+                </div>
+            </section>
+
+            <section class="repo-info-section" id="repoInfoSection" style="display: none;">
+                <h2>仓库信息</h2>
+                <div class="input-group">
+                    <input type="text" id="ownerInput" placeholder="GitHub 用户名">
+                    <input type="text" id="repoInput" placeholder="仓库名称">
+                    <button id="loadRepoButton">加载仓库</button>
+                </div>
+            </section>
+            
+            <section class="editor-section" id="editorSection" style="display: none;">
+                <div class="editor-header">
+                    <h2>编辑 config.json</h2>
+                    <div class="editor-actions">
+                        <button id="formatButton"><i class="fas fa-indent"></i> 格式化</button>
+                        <button id="saveButton"><i class="fas fa-save"></i> 保存更改</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <textarea id="jsonEditor" spellcheck="false"></textarea>
+                </div>
+                <div id="validationMessage"></div>
+            </section>
+            
+            <section class="preview-section" id="previewSection" style="display: none;">
+                <h2>资源预览</h2>
+                <div class="category-tabs" id="categoryTabs"></div>
+                <div class="preview-container" id="previewContainer"></div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>© 2023 皮卡丘的资源推荐 | 管理后台</p>
+            <p>皮卡~皮卡丘！⚡</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
