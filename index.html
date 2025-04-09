@@ -9,10 +9,21 @@
 </head>
 <body>
     <div class="container">
+        <!-- 移除多余的 top-bar div，修正 header 结构 -->
         <header>
             <div class="logo">
                 <img src="images/pikachu1.png" alt="皮卡丘" id="pikachu">
                 <h1>皮卡丘的资源推荐</h1>
+            </div>
+            <div class="visit-stats">
+                <div class="stat-item">
+                    <span class="stat-label">今日访问：</span>
+                    <span class="stat-value" id="busuanzi_value_site_pv">--</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">总访问量：</span>
+                    <span class="stat-value" id="busuanzi_value_site_uv">--</span>
+                </div>
             </div>
         </header>
         
@@ -39,11 +50,12 @@
         </main>
         
         <footer>
-            <p>© 2023 皮卡丘的资源推荐 | 基于 GitHub Pages</p>
+            <p>© 2025 皮卡丘的资源推荐</p>
             <p>皮卡~皮卡丘！⚡</p>
         </footer>
     </div>
 
     <script src="js/main.js"></script>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>

@@ -31,12 +31,49 @@ body {
 /* 头部样式 */
 header {
     margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+}
+
+/* 访问统计样式 */
+.visit-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: rgba(42, 117, 187, 0.1);
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.stat-value {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
 }
 
 .logo img {
