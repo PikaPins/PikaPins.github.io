@@ -1,110 +1,166 @@
 {
-    "categories": [
-      {
-        "id": "movies",
-        "name": "影视资源",
-        "icon": "🎬",
-        "resources": [
-          {
-            "name": "豆瓣电影",
-            "description": "中国最大的电影评分和推荐平台",
-            "url": "https://movie.douban.com/",
-            "tags": ["电影", "评分", "推荐"]
-          },
-          {
-            "name": "奈飞工厂",
-            "description": "免费观看奈飞视频网站",
-            "url": "https://www.netflixgc.com/",
-            "tags": ["电影", "推荐"]
-          },
-          {
-            "name": "IMDb",
-            "description": "全球最大的电影和电视剧数据库",
-            "url": "https://www.imdb.com/",
-            "tags": ["电影", "数据库", "国际"]
-          },
-          {
-            "name": "Netflix",
-            "description": "全球流行的流媒体服务",
-            "url": "https://www.netflix.com/",
-            "tags": ["流媒体", "原创内容"]
-          }
-        ]
-      },
-      {
-        "id": "books",
-        "name": "书籍资源",
-        "icon": "📚",
-        "resources": [
-          {
-            "name": "豆瓣读书",
-            "description": "中国最大的图书评分和推荐平台",
-            "url": "https://book.douban.com/",
-            "tags": ["图书", "评分", "推荐"]
-          },
-          {
-            "name": "Goodreads",
-            "description": "全球最大的图书社区",
-            "url": "https://www.goodreads.com/",
-            "tags": ["图书", "社区", "国际"]
-          },
-          {
-            "name": "Z-Library",
-            "description": "全球最大的电子书资源库之一",
-            "url": "https://z-lib.org/",
-            "tags": ["电子书", "免费"]
-          }
-        ]
-      },
-      {
-        "id": "tools",
-        "name": "实用工具",
-        "icon": "🔧",
-        "resources": [
-          {
-            "name": "Notion",
-            "description": "多合一的笔记、知识库和任务管理工具",
-            "url": "https://www.notion.so/",
-            "tags": ["笔记", "知识管理", "协作"]
-          },
-          {
-            "name": "Figma",
-            "description": "专业的在线设计工具",
-            "url": "https://www.figma.com/",
-            "tags": ["设计", "原型", "协作"]
-          },
-          {
-            "name": "VS Code",
-            "description": "微软开发的免费代码编辑器",
-            "url": "https://code.visualstudio.com/",
-            "tags": ["编程", "开发", "编辑器"]
-          }
-        ]
-      },
-      {
-        "id": "ai",
-        "name": "AI资源",
-        "icon": "🤖",
-        "resources": [
-          {
-            "name": "ChatGPT",
-            "description": "OpenAI开发的对话式人工智能",
-            "url": "https://chat.openai.com/",
-            "tags": ["聊天机器人", "自然语言处理"]
-          },
-          {
-            "name": "Midjourney",
-            "description": "AI图像生成工具",
-            "url": "https://www.midjourney.com/",
-            "tags": ["AI绘画", "图像生成"]
-          },
-          {
-            "name": "Hugging Face",
-            "description": "AI模型和数据集社区",
-            "url": "https://huggingface.co/",
-            "tags": ["机器学习", "模型", "开源"]
-          }
-        ]
-      }
-    ]
-  }
+  "categories": [
+    {
+      "id": "movies",
+      "name": "影视资源",
+      "icon": "🎬",
+      "resources": [
+        {
+          "name": "豆瓣电影",
+          "description": "中国最大的电影评分和推荐平台",
+          "url": "https://movie.douban.com/",
+          "tags": [
+            "电影",
+            "评分",
+            "推荐"
+          ]
+        },
+        {
+          "name": "奈飞工厂",
+          "description": "免费观看奈飞视频网站",
+          "url": "https://www.netflixgc.com/",
+          "tags": [
+            "电影",
+            "推荐"
+          ]
+        },
+        {
+          "name": "奈飞工厂",
+          "description": "免费观看奈飞视频网站",
+          "url": "https://www.netflixgc.com/",
+          "tags": [
+            "电影",
+            "推荐"
+          ]
+        },
+        {
+          "name": "IMDb",
+          "description": "全球最大的电影和电视剧数据库",
+          "url": "https://www.imdb.com/",
+          "tags": [
+            "电影",
+            "数据库",
+            "国际"
+          ]
+        },
+        {
+          "name": "Netflix",
+          "description": "全球流行的流媒体服务",
+          "url": "https://www.netflix.com/",
+          "tags": [
+            "流媒体",
+            "原创内容"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "books",
+      "name": "书籍资源",
+      "icon": "📚",
+      "resources": [
+        {
+          "name": "豆瓣读书",
+          "description": "中国最大的图书评分和推荐平台",
+          "url": "https://book.douban.com/",
+          "tags": [
+            "图书",
+            "评分",
+            "推荐"
+          ]
+        },
+        {
+          "name": "Goodreads",
+          "description": "全球最大的图书社区",
+          "url": "https://www.goodreads.com/",
+          "tags": [
+            "图书",
+            "社区",
+            "国际"
+          ]
+        },
+        {
+          "name": "Z-Library",
+          "description": "全球最大的电子书资源库之一",
+          "url": "https://z-lib.org/",
+          "tags": [
+            "电子书",
+            "免费"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tools",
+      "name": "实用工具",
+      "icon": "🔧",
+      "resources": [
+        {
+          "name": "Notion",
+          "description": "多合一的笔记、知识库和任务管理工具",
+          "url": "https://www.notion.so/",
+          "tags": [
+            "笔记",
+            "知识管理",
+            "协作"
+          ]
+        },
+        {
+          "name": "Figma",
+          "description": "专业的在线设计工具",
+          "url": "https://www.figma.com/",
+          "tags": [
+            "设计",
+            "原型",
+            "协作"
+          ]
+        },
+        {
+          "name": "VS Code",
+          "description": "微软开发的免费代码编辑器",
+          "url": "https://code.visualstudio.com/",
+          "tags": [
+            "编程",
+            "开发",
+            "编辑器"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "name": "AI资源",
+      "icon": "🤖",
+      "resources": [
+        {
+          "name": "ChatGPT",
+          "description": "OpenAI开发的对话式人工智能",
+          "url": "https://chat.openai.com/",
+          "tags": [
+            "聊天机器人",
+            "自然语言处理"
+          ]
+        },
+        {
+          "name": "Midjourney",
+          "description": "AI图像生成工具",
+          "url": "https://www.midjourney.com/",
+          "tags": [
+            "AI绘画",
+            "图像生成"
+          ]
+        },
+        {
+          "name": "Hugging Face",
+          "description": "AI模型和数据集社区",
+          "url": "https://huggingface.co/",
+          "tags": [
+            "机器学习",
+            "模型",
+            "开源"
+          ]
+        }
+      ]
+    }
+  ]
+}
