@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皮卡丘的资源推荐</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="images/pikachu.png" alt="皮卡丘" id="pikachu">
+                <h1>皮卡丘的资源推荐</h1>
+            </div>
+        </header>
+        
+        <main>
+            <aside class="sidebar">
+                <div class="category-list" id="categoryList">
+                    <!-- 分类将通过JS动态生成 -->
+                </div>
+                <div class="pikachu-animation">
+                    <img src="images/pikachu-running.gif" alt="奔跑的皮卡丘">
+                </div>
+            </aside>
+            
+            <section class="content">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="搜索资源...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="resource-grid" id="resourceGrid">
+                    <!-- 资源卡片将通过JS动态生成 -->
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>© 2023 皮卡丘的资源推荐 | 基于 GitHub Pages</p>
+            <p>皮卡~皮卡丘！⚡</p>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
