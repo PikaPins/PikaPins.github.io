@@ -21,7 +21,7 @@
                     <span class="stat-value" id="busuanzi_value_site_pv">--</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-label">总访问量：</span>
+                    <span class="stat-label">总访客数：</span>
                     <span class="stat-value" id="busuanzi_value_site_uv">--</span>
                 </div>
             </div>
@@ -31,6 +31,12 @@
             <aside class="sidebar">
                 <div class="category-list" id="categoryList">
                     <!-- 分类将通过JS动态生成 -->
+                </div>
+                <!-- 添加打赏按钮 -->
+                <div class="donate-container">
+                    <button id="donateButton" class="donate-button">
+                        <i class="fas fa-heart"></i> 打赏皮卡丘
+                    </button>
                 </div>
                 <div class="pikachu-animation">
                     <img src="images/pikachu-running.gif" alt="奔跑的皮卡丘">
@@ -55,7 +61,44 @@
         </footer>
     </div>
 
+    <!-- 打赏模态框 -->
+    <div id="donateModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>请皮卡丘喝杯奶茶 <i class="fas fa-coffee"></i></h2>
+            <div class="donate-tabs">
+                <div class="donate-tab active" data-tab="wechat">微信支付</div>
+                <div class="donate-tab" data-tab="alipay">支付宝</div>
+            </div>
+            <div class="donate-qrcodes">
+                <div class="qrcode-container active" id="wechat-qrcode">
+                    <img src="images/wechat-qrcode.png" alt="微信支付二维码">
+                    <p>微信扫一扫，请皮卡丘喝奶茶</p>
+                </div>
+                <div class="qrcode-container" id="alipay-qrcode">
+                    <img src="images/alipay-qrcode.png" alt="支付宝二维码">
+                    <p>支付宝扫一扫，请皮卡丘喝奶茶</p>
+                </div>
+            </div>
+            <button id="donateCompleteButton" class="donate-complete-button">我已完成打赏</button>
+        </div>
+    </div>
+
+    <!-- 感谢模态框 -->
+    <div id="thankModal" class="modal">
+        <div class="modal-content thank-content">
+            <span class="close-button">&times;</span>
+            <div class="thank-animation">
+                <img src="images/pikachu-happy.gif" alt="开心的皮卡丘">
+            </div>
+            <h2>皮卡皮卡！(≧▽≦)/</h2>
+            <p>皮卡丘收到你的心意啦！感谢你的支持，皮卡丘会继续努力推荐更多优质资源！</p>
+            <button class="close-thank-button">关闭</button>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
+    <script src="js/donate.js"></script>
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>

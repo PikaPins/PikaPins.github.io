@@ -306,3 +306,193 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* 打赏按钮样式 */
+.donate-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.donate-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 8px;
+}
+
+.donate-button:hover {
+    background-color: #e6b800;
+    transform: scale(1.05);
+}
+
+.donate-button i {
+    color: #ff5252;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: var(--border-radius);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+.modal h2 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* 打赏选项卡样式 */
+.donate-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.donate-tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.donate-tab.active {
+    border-bottom-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+/* 二维码容器样式 */
+.donate-qrcodes {
+    margin-bottom: 20px;
+}
+
+.qrcode-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.qrcode-container.active {
+    display: flex;
+}
+
+.qrcode-container img {
+    max-width: 200px;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.qrcode-container p {
+    color: #666;
+}
+
+/* 完成打赏按钮 */
+.donate-complete-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.donate-complete-button:hover {
+    background-color: #1a65ab;
+}
+
+/* 感谢模态框样式 */
+.thank-content {
+    background-color: #fffde7;
+    border: 2px solid var(--primary-color);
+}
+
+.thank-animation {
+    margin-bottom: 15px;
+}
+
+.thank-animation img {
+    max-width: 150px;
+}
+
+.close-thank-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+.close-thank-button:hover {
+    background-color: #e6b800;
+}
+
+/* 调整打赏按钮与奔跑皮卡丘的间距 */
+.donate-container {
+    margin-top: auto;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* 皮卡丘动画容器样式调整 */
+.pikachu-animation {
+    margin-top: 0;
+    text-align: center;
+}
+
+.pikachu-animation img {
+    max-width: 100%;
+    height: auto;
+}
