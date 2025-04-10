@@ -186,8 +186,22 @@ main {
 /* 资源网格 */
 .resource-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* 修改为3列 */
     gap: 20px;
+    margin-top: 20px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .resource-grid {
+        grid-template-columns: repeat(2, 1fr); /* 中等屏幕显示2列 */
+    }
+}
+
+@media (max-width: 768px) {
+    .resource-grid {
+        grid-template-columns: 1fr; /* 小屏幕显示1列 */
+    }
 }
 
 .resource-card {
