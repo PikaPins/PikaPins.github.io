@@ -25,6 +25,15 @@
           ]
         },
         {
+          "name": "搜片",
+          "description": "免费视频搜索集合网站",
+          "url": "https://soupian.pro/",
+          "tags": [
+            "免费",
+            "集合"
+          ]
+        },
+        {
           "name": "1个G视频",
           "description": "免费观看视频网站",
           "url": "https://ygg01.com/",
@@ -131,6 +140,26 @@
             "设计",
             "原型",
             "协作"
+          ]
+        },
+        {
+          "name": "FileBin",
+          "description": "免注册临时文件上传存储",
+          "url": "https://filebin.net/",
+          "tags": [
+            "无需注册",
+            "文件存储",
+            "适合存储不方便传输的资源"
+          ]
+        },
+        {
+          "name": "Doki二次元",
+          "description": "windows二次元壁纸软件",
+          "url": "https://www.alipan.com/s/unfqz3LBHBN ",
+          "tags": [
+            "二次元",
+            "壁纸",
+            "无广告"
           ]
         },
         {
