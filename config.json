@@ -169,6 +169,37 @@
           ]
         },
         {
+          "name": "即梦 AI",
+          "description": "字节跳动AI 图像创作平台",
+          "url": "https://jimeng.jianying.com/",
+          "tags": [
+            "AI绘画",
+            "图像生成",
+            "创意平台"
+          ]
+        },
+        {
+          "name": "豆包",
+          "description": "国内综合最好的AI产品",
+          "url": "https://www.doubao.com/",
+          "tags": [
+            "AI超级应用",
+            "AI云盘",
+            "AI聊天"
+          ]
+        },
+        {
+          "name": "扣子",
+          "description": "最好用的AI应用开发平台",
+          "url": "https://www.coze.cn/",
+          "tags": [
+            "AI应用开发",
+            "RAG",
+            "可视化设计与编排工具",
+            "AI低代码"
+          ]
+        },
+        {
           "name": "Hugging Face",
           "description": "AI模型和数据集社区",
           "url": "https://huggingface.co/",
