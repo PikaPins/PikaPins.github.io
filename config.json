@@ -200,6 +200,72 @@
           ]
         },
         {
+          "name": "DeepSpeed",
+          "description": "由微软开发的大规模分布式训练优化库，支持大模型高效训练",
+          "url": "https://www.deepspeed.ai/",
+          "tags": [
+            "大模型",
+            "分布式训练",
+            "优化器",
+            "AI开发"
+          ]
+        },
+        {
+          "name": "DeepSpeed",
+          "description": "由微软开发的大规模分布式训练优化库，支持大模型高效训练",
+          "url": "https://www.deepspeed.ai/",
+          "tags": [
+            "大模型",
+            "分布式训练",
+            "优化器",
+            "AI开发"
+          ]
+        },
+        {
+          "name": "Megatron-LM",
+          "description": "由NVIDIA开发的用于训练超大规模Transformer模型的框架",
+          "url": "https://github.com/NVIDIA/Megatron-LM",
+          "tags": [
+            "大模型",
+            "Transformer",
+            "GPU加速",
+            "AI开发"
+          ]
+        },
+        {
+          "name": "LangChain",
+          "description": "用于构建基于大语言模型的应用程序的开发框架，支持链式调用和多工具集成",
+          "url": "https://www.langchain.com/",
+          "tags": [
+            "大模型应用",
+            "RAG",
+            "Agent框架",
+            "AI开发"
+          ]
+        },
+        {
+          "name": "LlamaIndex",
+          "description": "为大语言模型提供外部数据接入和索引能力的框架，常用于构建RAG系统",
+          "url": "https://www.llamaindex.ai/",
+          "tags": [
+            "RAG",
+            "数据接入",
+            "知识库",
+            "大模型应用"
+          ]
+        },
+        {
+          "name": "Semantic Kernel",
+          "description": "微软推出的插件化大模型开发框架，强调技能（Function）组合与调度",
+          "url": "https://aka.ms/semantic-kernel",
+          "tags": [
+            "插件化",
+            "Function调用",
+            "大模型调度",
+            "AI开发"
+          ]
+        },
+        {
           "name": "Hugging Face",
           "description": "AI模型和数据集社区",
           "url": "https://huggingface.co/",
