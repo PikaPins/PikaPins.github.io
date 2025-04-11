@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 添加欢迎动画 -->
+    <div id="welcomeAnimation" class="welcome-animation">
+        <div class="welcome-content">
+            <img src="images/pikachu-welcome1.gif" alt="欢迎皮卡丘">
+            <h2>皮卡皮卡~✨ 被你发现啦！皮卡丘使用了【电力十足的欢迎】</h2>
+        </div>
+    </div>
+
     <div class="container">
         <!-- 移除多余的 top-bar div，修正 header 结构 -->
         <header>
@@ -97,6 +105,8 @@
         </div>
     </div>
 
+    <!-- 在其他脚本之前引入欢迎动画脚本 -->
+    <script src="js/welcome.js"></script>
     <script src="js/main.js"></script>
     <script src="js/donate.js"></script>
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
