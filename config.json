@@ -240,17 +240,6 @@
           ]
         },
         {
-          "name": "DeepSpeed",
-          "description": "由微软开发的大规模分布式训练优化库，支持大模型高效训练",
-          "url": "https://www.deepspeed.ai/",
-          "tags": [
-            "大模型",
-            "分布式训练",
-            "优化器",
-            "AI开发"
-          ]
-        },
-        {
           "name": "Megatron-LM",
           "description": "由NVIDIA开发的用于训练超大规模Transformer模型的框架",
           "url": "https://github.com/NVIDIA/Megatron-LM",
