@@ -79,6 +79,16 @@
           ]
         },
         {
+          "name": "书伴",
+          "description": "最专业的Kindle看书资源",
+          "url": "https://bookfere.com/",
+          "tags": [
+            "Kindle",
+            "推书",
+            "最全指南"
+          ]
+        },
+        {
           "name": "Goodreads",
           "description": "全球最大的图书社区",
           "url": "https://www.goodreads.com/",
