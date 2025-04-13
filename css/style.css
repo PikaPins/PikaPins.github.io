@@ -564,5 +564,5 @@ body {
 }
 
 a, button, input[type="button"], input[type="submit"], .donate-button, .card-link, .category-item, .close-button, .donate-tab {
-    cursor: url('../images/pikachu-pointer.png'), pointer;
+    cursor: url('../images/pikachu-cursor.png'), pointer;
 }
