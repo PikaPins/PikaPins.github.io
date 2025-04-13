@@ -557,3 +557,12 @@ footer {
         opacity: 1;
     }
 }
+
+/* 自定义皮卡丘光标 */
+body {
+    cursor: url('../images/pikachu-cursor.png'), auto;
+}
+
+a, button, input[type="button"], input[type="submit"], .donate-button, .card-link, .category-item, .close-button, .donate-tab {
+    cursor: url('../images/pikachu-pointer.png'), pointer;
+}
