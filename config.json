@@ -173,13 +173,12 @@
           ]
         },
         {
-          "name": "VS Code",
-          "description": "微软开发的免费代码编辑器",
-          "url": "https://code.visualstudio.com/",
+          "name": "watermark remover",
+          "description": "图像免费去水印",
+          "url": "https://www.watermarkremover.io/zh",
           "tags": [
-            "编程",
-            "开发",
-            "编辑器"
+            "图像水印去除",
+            "免费"
           ]
         }
       ]
