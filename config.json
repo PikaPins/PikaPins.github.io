@@ -313,6 +313,59 @@
           ]
         }
       ]
+    },
+    {
+      "id": "games",
+      "name": "游戏娱乐",
+      "icon": "🎮",
+      "resources": [
+        {
+          "name": "Steam",
+          "description": "全球最大的PC游戏发行平台",
+          "url": "https://store.steampowered.com/",
+          "tags": [
+            "游戏",
+            "数字商店",
+            "PC"
+          ]
+        },
+        {
+          "name": "小霸王其乐无穷",
+          "description": "在线玩FC、GB等经典游戏的复古游戏平台",
+          "url": "https://www.yikm.net/",
+          "tags": [
+            "怀旧",
+            "复古游戏",
+            "免费"
+          ]
+        },
+        {
+          "name": "Itch.io",
+          "description": "独立游戏开发者的天堂，大量创意小游戏",
+          "url": "https://itch.io/",
+          "tags": [
+            "独立游戏",
+            "创意",
+            "小众"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "Interstring",
+      "name": "有趣资源",
+      "icon": "❤️",
+      "resources": [
+        {
+          "name": "How To Cook",
+          "description": "程序员做饭指南",
+          "url": "https://cook.aiursoft.cn/",
+          "tags": [
+            "做饭资源",
+            "宅男必备"
+          ]
+        }
+      ]
     }
   ]
 }
