@@ -53,15 +53,6 @@
           ]
         },
         {
-          "name": "Netflix",
-          "description": "全球流行的流媒体服务",
-          "url": "https://www.netflix.com/",
-          "tags": [
-            "流媒体",
-            "原创内容"
-          ]
-        },
-        {
           "name": "美剧屋",
           "description": "最全无广告免费在线美剧网站",
           "url": "https://www.mjwu.cc/",
