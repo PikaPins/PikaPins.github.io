@@ -49,18 +49,92 @@
                 </div>
             </section>
             
-            <section class="editor-section" id="editorSection" style="display: none;">
-                <div class="editor-header">
-                    <h2>编辑 config.json</h2>
-                    <div class="editor-actions">
-                        <button id="formatButton"><i class="fas fa-indent"></i> 格式化</button>
-                        <button id="saveButton"><i class="fas fa-save"></i> 保存更改</button>
+            <!-- 添加资源管理选项卡 -->
+            <section class="management-section" id="managementSection" style="display: none;">
+                <div class="management-tabs">
+                    <button class="tab-button active" data-tab="editor">JSON编辑器</button>
+                    <button class="tab-button" data-tab="addResource">添加资源</button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- JSON编辑器面板 -->
+                    <div class="tab-panel active" id="editorPanel">
+                        <div class="editor-section" id="editorSection">
+                            <div class="editor-header">
+                                <h2>编辑 config.json</h2>
+                                <div class="editor-actions">
+                                    <button id="formatButton"><i class="fas fa-indent"></i> 格式化</button>
+                                    <button id="saveButton"><i class="fas fa-save"></i> 保存更改</button>
+                                </div>
+                            </div>
+                            <div class="editor-container">
+                                <textarea id="jsonEditor" spellcheck="false"></textarea>
+                            </div>
+                            <div id="validationMessage"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 添加资源面板 -->
+                    <div class="tab-panel" id="addResourcePanel">
+                        <div class="add-resource-section">
+                            <h2>添加新资源</h2>
+                            
+                            <div class="form-group">
+                                <label for="categorySelect">选择类别：</label>
+                                <select id="categorySelect">
+                                    <!-- 类别将通过JS动态生成 -->
+                                </select>
+                                <button id="newCategoryButton" class="small-button"><i class="fas fa-plus"></i> 新建类别</button>
+                            </div>
+                            
+                            <div id="newCategoryForm" style="display: none;">
+                                <div class="form-group">
+                                    <label for="categoryId">类别ID：</label>
+                                    <input type="text" id="categoryId" placeholder="例如：games">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoryName">类别名称：</label>
+                                    <input type="text" id="categoryName" placeholder="例如：游戏资源">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoryIcon">类别图标：</label>
+                                    <input type="text" id="categoryIcon" placeholder="例如：🎮">
+                                </div>
+                                <button id="addCategoryButton">添加类别</button>
+                                <button id="cancelCategoryButton" class="cancel-button">取消</button>
+                            </div>
+                            
+                            <div id="resourceForm">
+                                <div class="form-group">
+                                    <label for="resourceName">资源名称：</label>
+                                    <input type="text" id="resourceName" placeholder="例如：Steam">
+                                </div>
+                                <div class="form-group">
+                                    <label for="resourceDescription">资源描述：</label>
+                                    <textarea id="resourceDescription" placeholder="例如：全球最大的PC游戏发行平台"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="resourceUrl">资源URL：</label>
+                                    <input type="url" id="resourceUrl" placeholder="例如：https://store.steampowered.com/">
+                                </div>
+                                <div class="form-group">
+                                    <label for="resourceTags">资源标签：</label>
+                                    <input type="text" id="resourceTags" placeholder="用逗号分隔，例如：游戏,数字商店,PC">
+                                </div>
+                                <div class="button-container">
+                                    <button id="addResourceButton">添加资源</button>
+                                    <button id="resetFormButton">重置</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="editor-container">
-                    <textarea id="jsonEditor" spellcheck="false"></textarea>
+                
+                <!-- 添加保存更改按钮区域 -->
+                <div class="save-changes-container">
+                    <button id="saveChangesButton"><i class="fas fa-cloud-upload-alt"></i> 保存更改到GitHub</button>
+                    <p class="save-hint">添加完资源后，点击此按钮将更改保存到GitHub仓库</p>
                 </div>
-                <div id="validationMessage"></div>
             </section>
             
             <section class="preview-section" id="previewSection" style="display: none;">

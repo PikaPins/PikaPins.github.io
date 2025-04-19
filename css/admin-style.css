@@ -199,6 +199,91 @@ button:hover {
 }
 
 /* 预览部分 */
+/* 添加以下样式到现有的admin-style.css文件 */
+
+/* 管理选项卡样式 */
+.management-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.tab-button:hover {
+    color: var(--secondary-color);
+}
+
+.tab-button.active {
+    color: var(--secondary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.small-button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+
+.cancel-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.cancel-button:hover {
+    background-color: #d32f2f;
+}
+
+/* 预览样式 */
 .category-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -207,20 +292,21 @@ button:hover {
 }
 
 .category-tab {
+    background-color: #f5f5f5;
+    border: none;
     padding: 8px 15px;
-    background-color: #eee;
-    border-radius: var(--border-radius);
+    border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s;
 }
 
 .category-tab:hover {
-    background-color: #ddd;
+    background-color: #e0e0e0;
 }
 
 .category-tab.active {
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .preview-container {
@@ -230,12 +316,17 @@ button:hover {
 }
 
 .resource-card {
-    background-color: var(--card-bg);
+    background-color: white;
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    border: 1px solid #eee;
+    transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .resource-card::before {
@@ -292,20 +383,48 @@ button:hover {
     background-color: #1a65ab;
 }
 
-/* 提示框 */
+/* 提示消息样式 */
 .toast {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    padding: 15px 25px;
-    background-color: var(--secondary-color);
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
     color: white;
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(100px);
-    opacity: 0;
-    transition: transform 0.3s, opacity 0.3s;
+    font-weight: bold;
     z-index: 1000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.toast.success {
+    background-color: #4CAF50;
+}
+
+.toast.error {
+    background-color: #F44336;
+}
+
+.toast.info {
+    background-color: #2196F3;
+}
+
+/* 验证消息样式 */
+#validationMessage {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#validationMessage.success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+#validationMessage.error {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #F44336;
 }
 
 .toast.show {
@@ -345,4 +464,168 @@ button:hover {
         flex-direction: column;
         gap: 15px;
     }
+}
+
+/* 优化添加资源和重置按钮样式 */
+#addResourceButton, #resetFormButton {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#addResourceButton {
+    background-color: #FFCB05;
+    color: #333;
+    margin-right: 15px;
+}
+
+#addResourceButton:hover {
+    background-color: #FFD84D;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+#addResourceButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#addResourceButton::before {
+    content: "\f067";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+#resetFormButton {
+    background-color: #FF6B6B;
+    color: white;
+}
+
+#resetFormButton:hover {
+    background-color: #FF8787;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+#resetFormButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#resetFormButton::before {
+    content: "\f2ea";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+/* 按钮容器样式 */
+.button-container {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* 优化新建类别按钮样式 */
+#newCategoryButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 12px;
+}
+
+#newCategoryButton:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#newCategoryButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#newCategoryButton i {
+    margin-right: 6px;
+}
+
+/* 类别选择器样式优化 */
+#categorySelect {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+}
+
+/* 类别选择表单组样式 */
+.form-group:first-of-type {
+    display: flex;
+    align-items: center;
+}
+
+/* 保存更改按钮容器样式 */
+.save-changes-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
+    text-align: center;
+}
+
+#saveChangesButton {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+#saveChangesButton:hover {
+    background-color: #1a65ab;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+#saveChangesButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#saveChangesButton i {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.save-hint {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
 }

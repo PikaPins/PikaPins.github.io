@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const welcomeAnimation = document.getElementById('welcomeAnimation');
     
     // 检查用户是否是首次访问
-    const isFirstVisit = !localStorage.getItem('hasVisited');
+    const isFirstVisit = localStorage.getItem('hasVisited');
     
     // 如果是首次访问，显示欢迎动画
     if (isFirstVisit) {
@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 动画结束后移除元素
             setTimeout(function() {
                 welcomeAnimation.style.display = 'none';
-            }, 500); // 等待淡出动画完成
-        }, 2500);
+            }, 800); // 等待淡出动画完成
+        }, 3000);
     } else {
         // 非首次访问，直接隐藏欢迎动画
         welcomeAnimation.style.display = 'none';

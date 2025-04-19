@@ -1,360 +1,461 @@
+// 管理后台脚本
+let token = '';
+let configData = null;
+let owner = '';
+let repo = '';
+let sha = '';
+
 document.addEventListener('DOMContentLoaded', function() {
-    // 获取DOM元素
-    const authSection = document.getElementById('authSection');
-    const repoInfoSection = document.getElementById('repoInfoSection');
-    const editorSection = document.getElementById('editorSection');
-    const previewSection = document.getElementById('previewSection');
-    
-    const tokenInput = document.getElementById('tokenInput');
+    // 初始化授权按钮
     const authButton = document.getElementById('authButton');
+    authButton.addEventListener('click', authenticate);
     
-    const ownerInput = document.getElementById('ownerInput');
-    const repoInput = document.getElementById('repoInput');
+    // 初始化加载仓库按钮
     const loadRepoButton = document.getElementById('loadRepoButton');
+    loadRepoButton.addEventListener('click', loadRepo);
     
-    const jsonEditor = document.getElementById('jsonEditor');
+    // 初始化格式化和保存按钮
     const formatButton = document.getElementById('formatButton');
+    formatButton.addEventListener('click', formatJSON);
+    
     const saveButton = document.getElementById('saveButton');
-    const validationMessage = document.getElementById('validationMessage');
+    saveButton.addEventListener('click', saveChanges);
     
-    const categoryTabs = document.getElementById('categoryTabs');
-    const previewContainer = document.getElementById('previewContainer');
-    const adminPikachu = document.getElementById('adminPikachu');
-    
-    // 存储GitHub令牌和仓库信息
-    let githubToken = localStorage.getItem('githubToken') || '';
-    let repoOwner = localStorage.getItem('repoOwner') || '';
-    let repoName = localStorage.getItem('repoName') || '';
-    let configData = null;
-    let configSha = '';
-    let currentCategory = null;
-    
-    // 初始化页面
-    init();
-    
-    // 初始化函数
-    function init() {
-        // 如果已有令牌，自动填充并显示仓库信息部分
-        if (githubToken) {
-            tokenInput.value = '********'; // 不显示实际令牌
-            showSection(repoInfoSection);
-            
-            // 如果已有仓库信息，自动填充并加载
-            if (repoOwner && repoName) {
-                ownerInput.value = repoOwner;
-                repoInput.value = repoName;
-                loadConfigFile();
-            }
-        }
-        
-        // 皮卡丘点击效果
-        adminPikachu.addEventListener('click', () => {
-            adminPikachu.classList.add('bounce-effect');
-            setTimeout(() => {
-                adminPikachu.classList.remove('bounce-effect');
-            }, 1000);
-            
-            // 播放皮卡丘音效
-            const audio = new Audio('https://www.myinstants.com/media/sounds/pikachu.mp3');
-            audio.play();
+    // 初始化选项卡切换
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabName = this.getAttribute('data-tab');
+            switchTab(tabName);
         });
+    });
+    
+    // 初始化新建类别按钮
+    const newCategoryButton = document.getElementById('newCategoryButton');
+    newCategoryButton.addEventListener('click', function() {
+        document.getElementById('newCategoryForm').style.display = 'block';
+        document.getElementById('resourceForm').style.display = 'none';
+    });
+    
+    // 初始化取消新建类别按钮
+    const cancelCategoryButton = document.getElementById('cancelCategoryButton');
+    cancelCategoryButton.addEventListener('click', function() {
+        document.getElementById('newCategoryForm').style.display = 'none';
+        document.getElementById('resourceForm').style.display = 'block';
+        resetCategoryForm();
+    });
+    
+    // 初始化添加类别按钮
+    const addCategoryButton = document.getElementById('addCategoryButton');
+    addCategoryButton.addEventListener('click', addNewCategory);
+    
+    // 初始化添加资源按钮
+    const addResourceButton = document.getElementById('addResourceButton');
+    addResourceButton.addEventListener('click', addNewResource);
+    
+    // 初始化重置表单按钮
+    const resetFormButton = document.getElementById('resetFormButton');
+    resetFormButton.addEventListener('click', resetResourceForm);
+    
+    // 初始化保存更改到GitHub按钮
+    const saveChangesButton = document.getElementById('saveChangesButton');
+    saveChangesButton.addEventListener('click', saveChanges);
+    
+    // 检查本地存储中是否有令牌
+    const storedToken = localStorage.getItem('githubToken');
+    if (storedToken) {
+        document.getElementById('tokenInput').value = storedToken;
+        token = storedToken;
+        showSection('repoInfoSection');
+    }
+});
+
+// 切换选项卡
+function switchTab(tabName) {
+    // 更新选项卡按钮状态
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        if (button.getAttribute('data-tab') === tabName) {
+            button.classList.add('active');
+        } else {
+            button.classList.remove('active');
+        }
+    });
+    
+    // 更新选项卡面板状态
+    const tabPanels = document.querySelectorAll('.tab-panel');
+    tabPanels.forEach(panel => {
+        if (panel.id === tabName + 'Panel') {
+            panel.classList.add('active');
+        } else {
+            panel.classList.remove('active');
+        }
+    });
+}
+
+// 授权函数
+function authenticate() {
+    const tokenInput = document.getElementById('tokenInput');
+    token = tokenInput.value.trim();
+    
+    if (!token) {
+        showToast('请输入GitHub访问令牌', 'error');
+        return;
     }
     
-    // 授权按钮点击事件
-    authButton.addEventListener('click', () => {
-        const token = tokenInput.value.trim();
-        if (!token) {
-            showToast('请输入GitHub令牌', 'error');
-            return;
+    // 测试令牌是否有效
+    fetch('https://api.github.com/user', {
+        headers: {
+            'Authorization': `token ${token}`
         }
-        
-        // 验证令牌
-        fetch('https://api.github.com/user', {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('令牌无效或权限不足');
-            }
-            return response.json();
-        })
-        .then(data => {
-            githubToken = token;
-            localStorage.setItem('githubToken', token);
-            showToast('授权成功！', 'success');
-            showSection(repoInfoSection);
-        })
-        .catch(error => {
-            showToast(`授权失败: ${error.message}`, 'error');
-        });
-    });
-    
-    // 加载仓库按钮点击事件
-    loadRepoButton.addEventListener('click', () => {
-        const owner = ownerInput.value.trim();
-        const repo = repoInput.value.trim();
-        
-        if (!owner || !repo) {
-            showToast('请输入GitHub用户名和仓库名', 'error');
-            return;
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('授权失败');
         }
-        
-        repoOwner = owner;
-        repoName = repo;
-        localStorage.setItem('repoOwner', owner);
-        localStorage.setItem('repoName', repo);
-        
-        loadConfigFile();
+        return response.json();
+    })
+    .then(data => {
+        showToast('授权成功！', 'success');
+        localStorage.setItem('githubToken', token);
+        showSection('repoInfoSection');
+    })
+    .catch(error => {
+        showToast('授权失败：' + error.message, 'error');
     });
+}
+
+// 加载仓库
+function loadRepo() {
+    owner = document.getElementById('ownerInput').value.trim();
+    repo = document.getElementById('repoInput').value.trim();
     
-    // 加载配置文件
-    function loadConfigFile() {
-        showToast('正在加载配置文件...', 'info');
-        
-        // 获取config.json文件
-        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/config.json`, {
-            headers: {
-                'Authorization': `token ${githubToken}`
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('无法加载配置文件，请检查仓库信息');
-            }
-            return response.json();
-        })
-        .then(data => {
-            configSha = data.sha;
-            // 修改这里：正确解码 base64 内容，处理 UTF-8 编码
-            const content = decodeBase64UTF8(data.content);
-            jsonEditor.value = formatJSON(content);
-            configData = JSON.parse(content);
-            
-            showSection(editorSection);
-            showSection(previewSection);
-            renderPreview();
-            
-            showToast('配置文件加载成功！', 'success');
-        })
-        .catch(error => {
-            showToast(`加载失败: ${error.message}`, 'error');
-        });
+    if (!owner || !repo) {
+        showToast('请输入GitHub用户名和仓库名', 'error');
+        return;
     }
     
-    // 格式化按钮点击事件
-    formatButton.addEventListener('click', () => {
-        try {
-            const json = JSON.parse(jsonEditor.value);
-            jsonEditor.value = JSON.stringify(json, null, 2);
-            validateJSON(true);
-        } catch (error) {
-            showValidationError(error.message);
+    // 获取config.json文件
+    fetch(`https://api.github.com/repos/${owner}/${repo}/contents/config.json`, {
+        headers: {
+            'Authorization': `token ${token}`
         }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('无法加载config.json文件');
+        }
+        return response.json();
+    })
+    .then(data => {
+        sha = data.sha;
+        // 修复中文乱码问题：正确解码Base64内容
+        const content = decodeURIComponent(escape(atob(data.content)));
+        configData = JSON.parse(content);
+        
+        // 填充JSON编辑器
+        document.getElementById('jsonEditor').value = JSON.stringify(configData, null, 2);
+        
+        // 填充类别选择器
+        populateCategorySelect();
+        
+        // 显示管理和预览部分
+        showSection('managementSection');
+        showSection('previewSection');
+        
+        // 生成预览
+        generatePreview();
+        
+        showToast('仓库加载成功！', 'success');
+    })
+    .catch(error => {
+        showToast('加载失败：' + error.message, 'error');
     });
+}
+
+// 填充类别选择器
+function populateCategorySelect() {
+    const categorySelect = document.getElementById('categorySelect');
+    categorySelect.innerHTML = '';
     
-    // 保存按钮点击事件
-    saveButton.addEventListener('click', () => {
-        if (!validateJSON()) return;
+    configData.categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = `${category.icon} ${category.name}`;
+        categorySelect.appendChild(option);
+    });
+}
+
+// 添加新类别
+function addNewCategory() {
+    const categoryId = document.getElementById('categoryId').value.trim();
+    const categoryName = document.getElementById('categoryName').value.trim();
+    const categoryIcon = document.getElementById('categoryIcon').value.trim();
+    
+    if (!categoryId || !categoryName || !categoryIcon) {
+        showToast('请填写所有类别信息', 'error');
+        return;
+    }
+    
+    // 检查ID是否已存在
+    const existingCategory = configData.categories.find(cat => cat.id === categoryId);
+    if (existingCategory) {
+        showToast('类别ID已存在', 'error');
+        return;
+    }
+    
+    // 创建新类别
+    const newCategory = {
+        id: categoryId,
+        name: categoryName,
+        icon: categoryIcon,
+        resources: []
+    };
+    
+    // 添加到配置数据
+    configData.categories.push(newCategory);
+    
+    // 更新JSON编辑器
+    document.getElementById('jsonEditor').value = JSON.stringify(configData, null, 2);
+    
+    // 更新类别选择器
+    populateCategorySelect();
+    
+    // 更新预览
+    generatePreview();
+    
+    // 重置表单并隐藏
+    resetCategoryForm();
+    document.getElementById('newCategoryForm').style.display = 'none';
+    document.getElementById('resourceForm').style.display = 'block';
+    
+    // 选择新创建的类别
+    document.getElementById('categorySelect').value = categoryId;
+    
+    showToast('类别添加成功！', 'success');
+}
+
+// 添加新资源
+function addNewResource() {
+    const categoryId = document.getElementById('categorySelect').value;
+    const resourceName = document.getElementById('resourceName').value.trim();
+    const resourceDescription = document.getElementById('resourceDescription').value.trim();
+    const resourceUrl = document.getElementById('resourceUrl').value.trim();
+    const resourceTags = document.getElementById('resourceTags').value.trim();
+    
+    if (!categoryId || !resourceName || !resourceDescription || !resourceUrl) {
+        showToast('请填写所有必要的资源信息', 'error');
+        return;
+    }
+    
+    // 解析标签
+    const tags = resourceTags ? resourceTags.split(',').map(tag => tag.trim()) : [];
+    
+    // 创建新资源
+    const newResource = {
+        name: resourceName,
+        description: resourceDescription,
+        url: resourceUrl,
+        tags: tags
+    };
+    
+    // 找到对应的类别
+    const category = configData.categories.find(cat => cat.id === categoryId);
+    if (category) {
+        // 添加资源到类别
+        category.resources.push(newResource);
         
-        const newContent = jsonEditor.value;
+        // 更新JSON编辑器
+        document.getElementById('jsonEditor').value = JSON.stringify(configData, null, 2);
         
-        showToast('正在保存更改...', 'info');
+        // 更新预览
+        generatePreview();
         
-        // 更新config.json文件
-        fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/config.json`, {
+        // 重置表单
+        resetResourceForm();
+        
+        showToast('资源添加成功！', 'success');
+    } else {
+        showToast('找不到选定的类别', 'error');
+    }
+}
+
+// 重置类别表单
+function resetCategoryForm() {
+    document.getElementById('categoryId').value = '';
+    document.getElementById('categoryName').value = '';
+    document.getElementById('categoryIcon').value = '';
+}
+
+// 重置资源表单
+function resetResourceForm() {
+    document.getElementById('resourceName').value = '';
+    document.getElementById('resourceDescription').value = '';
+    document.getElementById('resourceUrl').value = '';
+    document.getElementById('resourceTags').value = '';
+}
+
+// 格式化JSON
+function formatJSON() {
+    try {
+        const jsonEditor = document.getElementById('jsonEditor');
+        const jsonData = JSON.parse(jsonEditor.value);
+        jsonEditor.value = JSON.stringify(jsonData, null, 2);
+        document.getElementById('validationMessage').textContent = '格式化成功！';
+        document.getElementById('validationMessage').className = 'success';
+    } catch (error) {
+        document.getElementById('validationMessage').textContent = '无效的JSON: ' + error.message;
+        document.getElementById('validationMessage').className = 'error';
+    }
+}
+
+// 保存更改
+function saveChanges() {
+    try {
+        // 验证JSON
+        const jsonEditor = document.getElementById('jsonEditor');
+        configData = JSON.parse(jsonEditor.value);
+        
+        // 准备提交数据 - 修复中文编码问题
+        const jsonString = JSON.stringify(configData, null, 2);
+        const content = btoa(unescape(encodeURIComponent(jsonString)));
+        
+        // 提交到GitHub
+        fetch(`https://api.github.com/repos/${owner}/${repo}/contents/config.json`, {
             method: 'PUT',
             headers: {
-                'Authorization': `token ${githubToken}`,
+                'Authorization': `token ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                message: '通过皮卡丘管理后台更新配置',
-                content: encodeBase64UTF8(newContent),
-                sha: configSha
+                message: '更新资源配置',
+                content: content,
+                sha: sha
             })
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('保存失败，请检查您的权限');
+                throw new Error('保存失败');
             }
             return response.json();
         })
         .then(data => {
-            configSha = data.content.sha;
-            configData = JSON.parse(newContent);
-            renderPreview();
-            showToast('配置已成功保存！', 'success');
+            sha = data.content.sha;
+            showToast('保存成功！', 'success');
+            
+            // 更新预览
+            generatePreview();
         })
         .catch(error => {
-            showToast(`保存失败: ${error.message}`, 'error');
+            showToast('保存失败：' + error.message, 'error');
         });
-    });
-    
-    // 验证JSON
-    function validateJSON(silent = false) {
-        try {
-            const json = JSON.parse(jsonEditor.value);
-            
-            // 验证基本结构
-            if (!json.categories || !Array.isArray(json.categories)) {
-                throw new Error('配置必须包含categories数组');
-            }
-            
-            // 验证每个分类
-            json.categories.forEach((category, index) => {
-                if (!category.id) throw new Error(`第${index+1}个分类缺少id字段`);
-                if (!category.name) throw new Error(`第${index+1}个分类缺少name字段`);
-                if (!category.resources || !Array.isArray(category.resources)) {
-                    throw new Error(`第${index+1}个分类缺少resources数组`);
-                }
-                
-                // 验证每个资源
-                category.resources.forEach((resource, resIndex) => {
-                    if (!resource.name) throw new Error(`${category.name}分类中第${resIndex+1}个资源缺少name字段`);
-                    if (!resource.url) throw new Error(`${category.name}分类中第${resIndex+1}个资源缺少url字段`);
-                });
-            });
-            
-            if (!silent) {
-                showValidationSuccess('JSON格式有效');
-            }
-            return true;
-        } catch (error) {
-            if (!silent) {
-                showValidationError(error.message);
-            }
-            return false;
-        }
-    }
-    
-    // 显示验证错误
-    function showValidationError(message) {
-        validationMessage.textContent = `错误: ${message}`;
-        validationMessage.className = 'error';
-    }
-    
-    // 显示验证成功
-    function showValidationSuccess(message) {
-        validationMessage.textContent = message;
-        validationMessage.className = 'success';
-    }
-    
-    // 格式化JSON
-    function formatJSON(jsonString) {
-        try {
-            return JSON.stringify(JSON.parse(jsonString), null, 2);
-        } catch (e) {
-            return jsonString;
-        }
-    }
-    
-    // 渲染预览
-    function renderPreview() {
-        if (!configData) return;
-        
-        // 渲染分类标签
-        categoryTabs.innerHTML = '';
-        configData.categories.forEach(category => {
-            const tab = document.createElement('div');
-            tab.className = `category-tab ${category.id === currentCategory ? 'active' : ''}`;
-            tab.dataset.id = category.id;
-            tab.innerHTML = `${category.icon || ''} ${category.name}`;
-            
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentCategory = category.id;
-                renderResourceCards(category);
-            });
-            
-            categoryTabs.appendChild(tab);
-        });
-        
-        // 默认显示第一个分类
-        if (configData.categories.length > 0) {
-            currentCategory = currentCategory || configData.categories[0].id;
-            const category = configData.categories.find(c => c.id === currentCategory) || configData.categories[0];
-            document.querySelector(`.category-tab[data-id="${category.id}"]`)?.classList.add('active');
-            renderResourceCards(category);
-        }
-    }
-    
-    // 渲染资源卡片
-    function renderResourceCards(category) {
-        previewContainer.innerHTML = '';
-        
-        if (!category.resources || category.resources.length === 0) {
-            previewContainer.innerHTML = '<div class="no-resources">该分类下暂无资源</div>';
-            return;
-        }
-        
-        category.resources.forEach(resource => {
-            const card = document.createElement('div');
-            card.className = 'resource-card';
-            card.innerHTML = `
-                <div class="card-content">
-                    <h3 class="card-title">${resource.name}</h3>
-                    <p class="card-description">${resource.description || ''}</p>
-                    <div class="card-tags">
-                        ${(resource.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
-                    </div>
-                    <a href="${resource.url}" class="card-link" target="_blank">访问网站</a>
-                </div>
-            `;
-            
-            previewContainer.appendChild(card);
-        });
-    }
-    
-    // 显示指定部分
-    function showSection(section) {
-        section.style.display = 'block';
-    }
-    
-    // 显示提示框
-    function showToast(message, type = 'info') {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.className = `toast ${type} show`;
-        
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
-    }
-    
-    // 监听编辑器内容变化
-    jsonEditor.addEventListener('input', () => {
-        validationMessage.style.display = 'none';
-    });
-});
-
-// 添加这些新函数来正确处理 UTF-8 编码的 base64 内容
-function decodeBase64UTF8(base64) {
-    try {
-        const binary = atob(base64.replace(/\s/g, ''));
-        const bytes = new Uint8Array(binary.length);
-        for (let i = 0; i < binary.length; i++) {
-            bytes[i] = binary.charCodeAt(i);
-        }
-        return new TextDecoder('utf-8').decode(bytes);
-    } catch (e) {
-        console.error('Base64解码失败:', e);
-        return atob(base64);
+    } catch (error) {
+        showToast('无效的JSON: ' + error.message, 'error');
     }
 }
 
-function encodeBase64UTF8(str) {
-    try {
-        const bytes = new TextEncoder().encode(str);
-        let binary = '';
-        for (let i = 0; i < bytes.length; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return btoa(binary);
-    } catch (e) {
-        console.error('Base64编码失败:', e);
-        return btoa(str);
+// 生成预览
+function generatePreview() {
+    const categoryTabs = document.getElementById('categoryTabs');
+    const previewContainer = document.getElementById('previewContainer');
+    
+    // 清空现有内容
+    categoryTabs.innerHTML = '';
+    previewContainer.innerHTML = '';
+    
+    // 生成类别选项卡
+    configData.categories.forEach((category, index) => {
+        const tabButton = document.createElement('button');
+        tabButton.className = 'category-tab' + (index === 0 ? ' active' : '');
+        tabButton.setAttribute('data-category', category.id);
+        tabButton.innerHTML = `${category.icon} ${category.name}`;
+        tabButton.addEventListener('click', function() {
+            // 切换选项卡
+            document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 显示对应的资源
+            showCategoryResources(category.id);
+        });
+        
+        categoryTabs.appendChild(tabButton);
+    });
+    
+    // 显示第一个类别的资源
+    if (configData.categories.length > 0) {
+        showCategoryResources(configData.categories[0].id);
     }
+}
+
+// 显示类别资源
+function showCategoryResources(categoryId) {
+    const previewContainer = document.getElementById('previewContainer');
+    previewContainer.innerHTML = '';
+    
+    const category = configData.categories.find(cat => cat.id === categoryId);
+    if (!category) return;
+    
+    category.resources.forEach(resource => {
+        const resourceCard = document.createElement('div');
+        resourceCard.className = 'resource-card';
+        
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+        
+        const cardTitle = document.createElement('h3');
+        cardTitle.className = 'card-title';
+        cardTitle.textContent = resource.name;
+        
+        const cardDescription = document.createElement('p');
+        cardDescription.className = 'card-description';
+        cardDescription.textContent = resource.description;
+        
+        const cardTags = document.createElement('div');
+        cardTags.className = 'card-tags';
+        
+        resource.tags.forEach(tag => {
+            const tagSpan = document.createElement('span');
+            tagSpan.className = 'tag';
+            tagSpan.textContent = tag;
+            cardTags.appendChild(tagSpan);
+        });
+        
+        const cardLink = document.createElement('a');
+        cardLink.className = 'card-link';
+        cardLink.href = resource.url;
+        cardLink.target = '_blank';
+        cardLink.textContent = '访问网站';
+        
+        cardContent.appendChild(cardTitle);
+        cardContent.appendChild(cardDescription);
+        cardContent.appendChild(cardTags);
+        cardContent.appendChild(cardLink);
+        
+        resourceCard.appendChild(cardContent);
+        previewContainer.appendChild(resourceCard);
+    });
+}
+
+// 显示指定部分
+function showSection(sectionId) {
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+// 显示提示消息
+function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast ' + type;
+    toast.style.display = 'block';
+    
+    setTimeout(() => {
+        toast.style.opacity = '1';
+    }, 10);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 300);
+    }, 3000);
 }
