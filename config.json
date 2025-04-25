@@ -144,16 +144,6 @@
           ]
         },
         {
-          "name": "Figma",
-          "description": "专业的在线设计工具",
-          "url": "https://www.figma.com/",
-          "tags": [
-            "设计",
-            "原型",
-            "协作"
-          ]
-        },
-        {
           "name": "FileBin",
           "description": "免注册临时文件上传存储",
           "url": "https://filebin.net/",
@@ -194,11 +184,11 @@
         },
         {
           "name": "哲风壁纸",
-          "description": "UI最美的无广告免费壁纸网站",
+          "description": "UI最美的无广免费壁纸论坛网站",
           "url": "https://haowallpaper.com/",
           "tags": [
             "UI美",
-            "无广告",
+            "无广",
             "免费"
           ]
         }
