@@ -6,16 +6,6 @@
       "icon": "🎬",
       "resources": [
         {
-          "name": "豆瓣电影",
-          "description": "中国最大的电影评分和推荐平台",
-          "url": "https://movie.douban.com/",
-          "tags": [
-            "电影",
-            "评分",
-            "推荐"
-          ]
-        },
-        {
           "name": "奈飞工厂",
           "description": "免费观看奈飞视频网站",
           "url": "https://www.netflixgc.com/",
