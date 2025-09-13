@@ -77,6 +77,22 @@
           "tags": [
             "免费视频资源"
           ]
+        },
+        {
+          "name": "影猫の仓库",
+          "description": "免费观影第一站 !",
+          "url": "https://www.ymck.pro/",
+          "tags": [
+            "免费观影"
+          ]
+        },
+        {
+          "name": "永乐视频",
+          "description": "全平台最新4K高清电影视频免费在线观看",
+          "url": "https://www.ylsp.lv/",
+          "tags": [
+            "4K高清"
+          ]
         }
       ]
     },
