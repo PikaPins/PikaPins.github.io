@@ -343,6 +343,83 @@ button:hover {
     padding: 20px;
 }
 
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.delete-resource-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 59, 48, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    opacity: 0.85;
+}
+
+.delete-resource-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.delete-resource-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background-color: rgba(255, 59, 48, 0.9);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.delete-resource-button:hover::before {
+    opacity: 1;
+}
+
+.delete-resource-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.delete-resource-button {
+    background-color: #ff5252;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.delete-resource-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background-color: #ff0000;
+}
+
 .card-title {
     font-size: 1.25rem;
     margin-bottom: 10px;
@@ -389,13 +466,223 @@ button:hover {
     bottom: 20px;
     right: 20px;
     padding: 15px 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     color: white;
     font-weight: bold;
     z-index: 1000;
     display: none;
     opacity: 0;
     transition: opacity 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 确认对话框样式 */
+.confirm-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.confirm-dialog.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.confirm-dialog-content {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    text-align: center;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.confirm-dialog.active .confirm-dialog-content {
+    transform: scale(1);
+}
+
+.confirm-dialog-icon {
+    font-size: 48px;
+    color: #ff5252;
+    margin-bottom: 15px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirm-dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.confirm-dialog-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.confirm-dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-dialog-button {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    min-width: 120px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-dialog-button.cancel {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.confirm-dialog-button.cancel:hover {
+    background-color: #e0e0e0;
+}
+
+.confirm-dialog-button.confirm {
+    background-color: #ff5252;
+    color: white;
+}
+
+.confirm-dialog-button.confirm:hover {
+    background-color: #ff3333;
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+.confirm-dialog-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 确认对话框样式 */
+.confirm-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.confirm-dialog.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.confirm-dialog-content {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+    text-align: center;
+}
+
+.confirm-dialog.active .confirm-dialog-content {
+    transform: translateY(0);
+}
+
+.confirm-dialog-icon {
+    font-size: 48px;
+    color: #ff5252;
+    margin-bottom: 15px;
+}
+
+.confirm-dialog-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.confirm-dialog-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.confirm-dialog-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-dialog-button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.confirm-dialog-button.cancel {
+    background-color: #f1f1f1;
+    color: #666;
+}
+
+.confirm-dialog-button.cancel:hover {
+    background-color: #e0e0e0;
+}
+
+.confirm-dialog-button.confirm {
+    background-color: #ff5252;
+    color: white;
+}
+
+.confirm-dialog-button.confirm:hover {
+    background-color: #ff3333;
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
 }
 
 .toast.success {

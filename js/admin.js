@@ -68,6 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
         token = storedToken;
         showSection('repoInfoSection');
     }
+    
+    // 设置GitHub用户名和仓库名称的默认值
+    document.getElementById('ownerInput').value = 'PikaPins';
+    document.getElementById('repoInput').value = 'PikaPins.github.io';
 });
 
 // 切换选项卡
@@ -119,6 +123,13 @@ function authenticate() {
         showToast('授权成功！', 'success');
         localStorage.setItem('githubToken', token);
         showSection('repoInfoSection');
+        
+        // 如果有默认的仓库信息，自动加载仓库
+        const ownerInput = document.getElementById('ownerInput');
+        const repoInput = document.getElementById('repoInput');
+        if (ownerInput.value.trim() && repoInput.value.trim()) {
+            loadRepo();
+        }
     })
     .catch(error => {
         showToast('授权失败：' + error.message, 'error');
@@ -395,16 +406,42 @@ function showCategoryResources(categoryId) {
     const category = configData.categories.find(cat => cat.id === categoryId);
     if (!category) return;
     
-    category.resources.forEach(resource => {
+    category.resources.forEach((resource, index) => {
         const resourceCard = document.createElement('div');
         resourceCard.className = 'resource-card';
+        
+        // 添加卡片点击事件，点击时打开资源链接
+        resourceCard.addEventListener('click', function() {
+            window.open(resource.url, '_blank');
+        });
         
         const cardContent = document.createElement('div');
         cardContent.className = 'card-content';
         
+        const cardHeader = document.createElement('div');
+        cardHeader.className = 'card-header';
+        
         const cardTitle = document.createElement('h3');
         cardTitle.className = 'card-title';
         cardTitle.textContent = resource.name;
+        
+        // 添加删除按钮
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-resource-button';
+        deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteButton.title = '删除资源';
+        deleteButton.addEventListener('click', function(event) {
+            // 阻止事件冒泡，防止触发卡片的其他事件
+            event.stopPropagation();
+            
+            // 使用自定义确认对话框
+            showConfirmDialog(`确定要删除资源 "${resource.name}" 吗？`, function() {
+                deleteResource(categoryId, index);
+            });
+        });
+        
+        cardHeader.appendChild(cardTitle);
+        cardHeader.appendChild(deleteButton);
         
         const cardDescription = document.createElement('p');
         cardDescription.className = 'card-description';
@@ -426,7 +463,7 @@ function showCategoryResources(categoryId) {
         cardLink.target = '_blank';
         cardLink.textContent = '访问网站';
         
-        cardContent.appendChild(cardTitle);
+        cardContent.appendChild(cardHeader);
         cardContent.appendChild(cardDescription);
         cardContent.appendChild(cardTags);
         cardContent.appendChild(cardLink);
@@ -439,6 +476,78 @@ function showCategoryResources(categoryId) {
 // 显示指定部分
 function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
+}
+
+// 删除资源
+function deleteResource(categoryId, resourceIndex) {
+    // 找到对应的类别
+    const category = configData.categories.find(cat => cat.id === categoryId);
+    if (!category) {
+        showToast('找不到指定的类别', 'error');
+        return;
+    }
+    
+    // 确保资源索引有效
+    if (resourceIndex < 0 || resourceIndex >= category.resources.length) {
+        showToast('无效的资源索引', 'error');
+        return;
+    }
+    
+    // 获取资源名称用于提示
+    const resourceName = category.resources[resourceIndex].name;
+    
+    // 从类别中删除资源
+    category.resources.splice(resourceIndex, 1);
+    
+    // 更新JSON编辑器
+    document.getElementById('jsonEditor').value = JSON.stringify(configData, null, 2);
+    
+    // 更新预览
+    generatePreview();
+    
+    // 重新显示当前类别的资源
+    showCategoryResources(categoryId);
+    
+    // 隐藏确认对话框
+    hideConfirmDialog();
+    
+    showToast(`资源 "${resourceName}" 已删除`, 'success');
+}
+
+// 显示确认对话框
+function showConfirmDialog(message, confirmCallback) {
+    const confirmDialog = document.getElementById('confirmDialog');
+    const confirmDialogMessage = document.getElementById('confirmDialogMessage');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    
+    // 设置消息
+    confirmDialogMessage.textContent = message;
+    
+    // 显示对话框
+    confirmDialog.classList.add('active');
+    
+    // 确认按钮点击事件
+    const confirmClickHandler = () => {
+        confirmCallback();
+        confirmDeleteBtn.removeEventListener('click', confirmClickHandler);
+    };
+    
+    // 取消按钮点击事件
+    const cancelClickHandler = () => {
+        hideConfirmDialog();
+        cancelDeleteBtn.removeEventListener('click', cancelClickHandler);
+    };
+    
+    // 添加事件监听器
+    confirmDeleteBtn.addEventListener('click', confirmClickHandler);
+    cancelDeleteBtn.addEventListener('click', cancelClickHandler);
+}
+
+// 隐藏确认对话框
+function hideConfirmDialog() {
+    const confirmDialog = document.getElementById('confirmDialog');
+    confirmDialog.classList.remove('active');
 }
 
 // 显示提示消息
