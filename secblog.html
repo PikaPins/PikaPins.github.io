@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer" />
+    <title>安全博客文章列表 - Pikachu安全资源</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="pika.png" type="image/png">
+    <style>
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid var(--secondary-color);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+        
+        .search-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .search-button:hover {
+            background-color: #1a65ab;
+        }
+        
+        .blog-stats {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(255, 203, 5, 0.1);
+            border-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .blog-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .blog-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .blog-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        
+        .blog-content {
+            padding: 15px;
+        }
+        
+        .blog-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .blog-digest {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+        }
+        
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+        
+        .page-button {
+            background-color: var(--light-bg);
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+            border-radius: var(--border-radius);
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .page-button.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .page-button:hover:not(.active) {
+            background-color: rgba(42, 117, 187, 0.1);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: var(--secondary-color);
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/pikachu1.png" alt="Pikachu" width="60">
+            <h1>Pikachu安全资源 - 安全博客</h1>
+        </div>
+        <div class="visit-stats">
+            <div class="stat-item">
+                <span class="stat-label">当前在线:</span>
+                <span class="stat-value" id="onlineCount">--</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">今日访问:</span>
+                <span class="stat-value" id="todayVisits">--</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">总访问量:</span>
+                <span class="stat-value" id="totalVisits">--</span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="blog-container">
+        <div class="search-container">
+            <input type="text" id="keywordInput" class="search-input" placeholder="输入关键词搜索安全文章...">
+            <button id="searchButton" class="search-button">搜索</button>
+        </div>
+        
+        <div id="blogStats" class="blog-stats">
+            <div>找到相关文章: <span id="totalResults">0</span> 篇</div>
+            <div>当前页: <span id="currentPage">1</span> / <span id="totalPages">1</span></div>
+        </div>
+        
+        <div id="errorContainer"></div>
+        
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <img src="images/pikachu-running.gif" alt="加载中" width="50">
+            <p>正在加载文章...</p>
+        </div>
+        
+        <div id="blogList" class="blog-list"></div>
+        
+        <div id="pagination" class="pagination"></div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const keywordInput = document.getElementById('keywordInput');
+            const searchButton = document.getElementById('searchButton');
+            const blogList = document.getElementById('blogList');
+            const totalResults = document.getElementById('totalResults');
+            const currentPage = document.getElementById('currentPage');
+            const totalPages = document.getElementById('totalPages');
+            const pagination = document.getElementById('pagination');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const errorContainer = document.getElementById('errorContainer');
+            
+            // 初始化变量
+            let currentKeyword = '';
+            let currentPageNum = 1;
+            let totalPagesNum = 1;
+            let totalResultsNum = 0;
+            
+            // 初始加载
+            searchArticles();
+            
+            // 搜索按钮点击事件
+            searchButton.addEventListener('click', function() {
+                currentPageNum = 1;
+                currentKeyword = keywordInput.value.trim();
+                searchArticles();
+            });
+            
+            // 回车键搜索
+            keywordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    currentPageNum = 1;
+                    currentKeyword = keywordInput.value.trim();
+                    searchArticles();
+                }
+            });
+            
+            // 搜索文章函数
+            function searchArticles() {
+                // 显示加载指示器
+                loadingIndicator.style.display = 'block';
+                blogList.innerHTML = '';
+                errorContainer.innerHTML = '';
+                
+                // 构建请求数据
+                const formData = new FormData();
+                formData.append('page', currentPageNum);
+                formData.append('keyword', currentKeyword);
+                formData.append('account__biz', '');
+                formData.append('date_data', '');
+                
+                // 发送POST请求
+                fetch('https://wechat.doonsec.com/api/v1/es/', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应不正常');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // 隐藏加载指示器
+                    loadingIndicator.style.display = 'none';
+                    console.log("返回的结果：", data);
+
+                    data = data.data.hits;
+
+                    console.log("处理后返回的结果：", data);
+                    
+                    // 处理响应数据
+                    if (data && data.total && data.total.value !== undefined) {
+                        totalResultsNum = data.total.value;
+                        totalResults.textContent = totalResultsNum;
+                        
+                        // 计算总页数
+                        totalPagesNum = Math.ceil(totalResultsNum / 15);
+                        totalPages.textContent = totalPagesNum;
+                        currentPage.textContent = currentPageNum;
+                        
+                        // 渲染文章列表
+                        renderArticles(data.hits || []);
+                        
+                        // 渲染分页
+                        renderPagination();
+                    } else {
+                        showError('数据格式不正确');
+                    }
+                })
+                .catch(error => {
+                    // 隐藏加载指示器
+                    loadingIndicator.style.display = 'none';
+                    showError('获取文章失败: ' + error.message);
+                });
+            }
+            
+            // 渲染文章列表
+            function renderArticles(articles) {
+                if (!articles || articles.length === 0) {
+                    blogList.innerHTML = '<div class="no-results">没有找到相关文章</div>';
+                    return;
+                }
+                
+                blogList.innerHTML = '';
+                
+                articles.forEach(article => {
+                    const source = article._source || {};
+                    console.log("文章信息:", source);
+                    const card = document.createElement('div');
+                    card.className = 'blog-card';
+                    
+                    // 格式化日期
+                    const publishDate = source.publish_time ? new Date(source.publish_time) : new Date();
+                    const formattedDate = `${publishDate.getFullYear()}-${(publishDate.getMonth() + 1).toString().padStart(2, '0')}-${publishDate.getDate().toString().padStart(2, '0')}`;
+                    
+                    card.innerHTML = `
+                        <img src="${source.cover || 'images/pikachu1.png'}" alt="文章封面" class="blog-image" onerror="this.src='images/pikachu1.png'">
+                        <div class="blog-content">
+                            <h3 class="blog-title">${source.title || '无标题'}</h3>
+                            <p class="blog-digest">${source.digest || '暂无摘要'}</p>
+                            <div class="blog-meta">
+                                <span>${source.author || '未知作者'}</span>
+                                <span>${formattedDate}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // 点击卡片跳转到文章链接
+                    card.addEventListener('click', function() {
+                        if (source.short_url) {
+                            window.open(source.short_url, '_blank');
+                        }
+                    });
+                    
+                    blogList.appendChild(card);
+                });
+            }
+            
+            // 渲染分页
+            function renderPagination() {
+                pagination.innerHTML = '';
+                
+                // 如果总页数小于等于1，不显示分页
+                if (totalPagesNum <= 1) {
+                    return;
+                }
+                
+                // 上一页按钮
+                if (currentPageNum > 1) {
+                    const prevButton = document.createElement('button');
+                    prevButton.className = 'page-button';
+                    prevButton.textContent = '上一页';
+                    prevButton.addEventListener('click', function() {
+                        currentPageNum--;
+                        searchArticles();
+                    });
+                    pagination.appendChild(prevButton);
+                }
+                
+                // 页码按钮
+                const maxPageButtons = 5;
+                let startPage = Math.max(1, currentPageNum - Math.floor(maxPageButtons / 2));
+                let endPage = Math.min(totalPagesNum, startPage + maxPageButtons - 1);
+                
+                if (endPage - startPage + 1 < maxPageButtons) {
+                    startPage = Math.max(1, endPage - maxPageButtons + 1);
+                }
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    const pageButton = document.createElement('button');
+                    pageButton.className = `page-button ${i === currentPageNum ? 'active' : ''}`;
+                    pageButton.textContent = i;
+                    pageButton.addEventListener('click', function() {
+                        currentPageNum = i;
+                        searchArticles();
+                    });
+                    pagination.appendChild(pageButton);
+                }
+                
+                // 下一页按钮
+                if (currentPageNum < totalPagesNum) {
+                    const nextButton = document.createElement('button');
+                    nextButton.className = 'page-button';
+                    nextButton.textContent = '下一页';
+                    nextButton.addEventListener('click', function() {
+                        currentPageNum++;
+                        searchArticles();
+                    });
+                    pagination.appendChild(nextButton);
+                }
+            }
+            
+            // 显示错误信息
+            function showError(message) {
+                errorContainer.innerHTML = `
+                    <div class="error-message">
+                        <p>${message}</p>
+                    </div>
+                `;
+            }
+            
+            // 模拟访问统计数据
+            document.getElementById('onlineCount').textContent = Math.floor(Math.random() * 100) + 50;
+            document.getElementById('todayVisits').textContent = Math.floor(Math.random() * 500) + 200;
+            document.getElementById('totalVisits').textContent = Math.floor(Math.random() * 10000) + 5000;
+        });
+    </script>
+</body>
+</html>
