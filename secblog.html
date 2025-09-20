@@ -258,6 +258,7 @@
                 formData.append('keyword', currentKeyword);
                 formData.append('account__biz', '');
                 formData.append('date_data', '');
+                formData.append('sort','desc');
                 
                 // 发送POST请求
                 fetch('https://wechat.doonsec.com/api/v1/es/', {
