@@ -341,6 +341,14 @@
             "模型",
             "开源"
           ]
+        },
+        {
+          "name": "AI工具集",
+          "description": "全面的AI资源汇聚",
+          "url": "https://ai-bot.cn/",
+          "tags": [
+            "AI资源"
+          ]
         }
       ]
     },
