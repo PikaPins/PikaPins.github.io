@@ -349,6 +349,14 @@
           "tags": [
             "AI资源"
           ]
+        },
+        {
+          "name": "ToolAI",
+          "description": "各类AI聚合资源网站",
+          "url": "https://www.toolai.io/",
+          "tags": [
+            "AI聚合"
+          ]
         }
       ]
     },
